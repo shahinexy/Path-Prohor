@@ -1,11 +1,12 @@
 import express from "express";
+import { DemoRouter } from "../modules/demo/demo.route";
 
 const router = express.Router();
 
 const moduleRouter = [
   {
-    path: "/",
-    router: undefined,
+    path: "/demo",
+    router: DemoRouter,
   },
 ];
 

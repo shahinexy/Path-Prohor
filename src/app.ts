@@ -14,4 +14,6 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+// global error handler
+
 export default app;
