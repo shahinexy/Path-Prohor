@@ -1,74 +1,74 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from "express";
-import { DemoService } from "./demo.service";
 import sendResponse from "../../utils/sendResponse";
 import status from "http-status";
 import catchAsync from "../../utils/catchAsync";
+import { BookServices } from "./demo.service";
 
-const createDemo = async (req: Request, res: Response) => {
-  const result = await DemoService.createDemoInDB(req.body);
+const createBook = async (req: Request, res: Response) => {
+  const result = await BookServices.createBookInDB(req.body);
 
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
-    message: "Demo created successfully",
+    message: "Book created successfully",
     data: result,
   });
 };
 
-const getDemos = catchAsync(async (req: Request, res: Response) => {
-  const result = await DemoService.getAllDemosFromDB();
+const getBooks = catchAsync(async (req: Request, res: Response) => {
+  const result = await BookServices.getAllBooksFromDB();
 
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
-    message: "Gert All Demos Successfully",
+    message: "Gert All Books Successfully",
     data: result,
   });
 });
 
-const getSingleDemo = catchAsync(async (req: Request, res: Response) => {
+const getSingleBook = catchAsync(async (req: Request, res: Response) => {
   const { productId } = req.params;
 
-  const result = await DemoService.getSingleDemoFromDB(productId);
+  const result = await BookServices.getSingleBookFromDB(productId);
 
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
-    message: "Get The Demo Successfully",
+    message: "Get The Book Successfully",
     data: result,
   });
 });
 
-const updateSingleDemo = catchAsync(
+const updateSingleBook = catchAsync(
   async (req: Request, res: Response): Promise<any> => {
     const { productId } = req.params;
 
-    const result = await DemoService.getSingleDemoFromDB(productId);
+    const result = await BookServices.getSingleBookFromDB(productId);
 
     sendResponse(res, {
       statusCode: status.OK,
       success: true,
-      message: "Demo updated successfully",
+      message: "Book updated successfully",
       data: result,
     });
   }
 );
 
-const deleteSingleDemo = catchAsync(async (req: Request, res: Response) => {
+const deleteSingleBook = catchAsync(async (req: Request, res: Response) => {
   const { productId } = req.params;
 
-  const result = await DemoService.deleteSingleDemoFromDB(productId);
+  const result = await BookServices.deleteSingleBookFromDB(productId);
 
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
-    message: "Demo deleted successfully",
+    message: "Book deleted successfully",
     data: result,
   });
 });
 
-// const searchDemo = async (req: Request, res: Response, next: NextFunction): Promise<any> =>{
+// const searchBook = async (req: Request, res: Response, next: NextFunction): Promise<any> =>{
 //     try {
 //         const {searchTerm} = req.query;
 
@@ -76,18 +76,18 @@ const deleteSingleDemo = catchAsync(async (req: Request, res: Response) => {
 //             return res.status(400).json({message: 'Search term is required'})
 //         }
 
-//         const result = await DemoService.searchDemoFromDB(searchTerm)
+//         const result = await BookService.searchBookFromDB(searchTerm)
 
 //         if (result.length === 0) {
 //             return res.status(404).json({
 //                 success: false,
-//                 message: `No Demos found for the search term: "${searchTerm}"`,
+//                 message: `No Books found for the search term: "${searchTerm}"`,
 //             });
 //         }
 
 //         res.status(200).json({
 //             success: true,
-//             message: 'Searched Demos get successfully',
+//             message: 'Searched Books get successfully',
 //             data: result
 //         })
 
@@ -101,10 +101,10 @@ const deleteSingleDemo = catchAsync(async (req: Request, res: Response) => {
 //     }
 // }
 
-export const DemoController = {
-  createDemo,
-  getDemos,
-  getSingleDemo,
-  updateSingleDemo,
-  deleteSingleDemo,
+export const BookControllers = {
+  createBook,
+  getBooks,
+  getSingleBook,
+  updateSingleBook,
+  deleteSingleBook,
 };
