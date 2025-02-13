@@ -1,13 +1,32 @@
+import QueryBuilder from "../../builder/QueryBuilder";
 import { TBook } from "./book.interface";
 import { BookModle } from "./book.model";
+import { Request } from "express";
 
 const createBookInDB = async (BookData: TBook) => {
   const result = await BookModle.create(BookData);
   return result;
 };
 
-const getAllBooksFromDB = async () => {
-  const result = await BookModle.find();
+const getAllBooksFromDB = async (query: Record<string, unknown>) => {
+  //   const regexSearchTerm = new RegExp(searchTerm, "i");
+
+  //   const result = await BookModle.find({
+  //     $or: [
+  //       { title: regexSearchTerm },
+  //       { author: regexSearchTerm },
+  //       { category: regexSearchTerm },
+  //     ],
+  //   });
+
+  const bookSearchbleField = ["title", "author", "category", "description"];
+
+  const bookQuery = new QueryBuilder(BookModle.find(), query)
+    .search(bookSearchbleField)
+    .paginate();
+
+  const result = await bookQuery.modelQuery;
+
   return result;
 };
 

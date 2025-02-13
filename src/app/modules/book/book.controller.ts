@@ -18,7 +18,7 @@ const createBook = catchAsync(async (req, res) => {
 });
 
 const getBooks = catchAsync(async (req, res) => {
-  const result = await BookServices.getAllBooksFromDB();
+  const result = await BookServices.getAllBooksFromDB(req.query);
 
   sendResponse(res, {
     statusCode: status.OK,
