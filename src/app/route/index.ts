@@ -10,7 +10,7 @@ const moduleRouter = [
     router: BookRouters,
   },
   {
-    path: "/order",
+    path: "/orders",
     router: OrderRouter,
   },
 ];

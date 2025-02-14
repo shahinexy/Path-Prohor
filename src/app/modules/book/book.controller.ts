@@ -67,39 +67,6 @@ const deleteSingleBook = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// const searchBook = async (req: Request, res: Response, next: NextFunction): Promise<any> =>{
-//     try {
-//         const {searchTerm} = req.query;
-
-//         if(!searchTerm || typeof searchTerm !== 'string'){
-//             return res.status(400).json({message: 'Search term is required'})
-//         }
-
-//         const result = await BookService.searchBookFromDB(searchTerm)
-
-//         if (result.length === 0) {
-//             return res.status(404).json({
-//                 success: false,
-//                 message: `No Books found for the search term: "${searchTerm}"`,
-//             });
-//         }
-
-//         res.status(200).json({
-//             success: true,
-//             message: 'Searched Books get successfully',
-//             data: result
-//         })
-
-//     } catch (error) {
-//         res.status(500).json({
-//             success: false,
-//             message: 'Something went wrong',
-//             data: error
-//         })
-//         next(error)
-//     }
-// }
-
 export const BookControllers = {
   createBook,
   getBooks,

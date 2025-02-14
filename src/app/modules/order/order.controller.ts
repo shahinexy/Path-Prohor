@@ -1,70 +1,43 @@
-import { Request, Response } from "express";
-import { OrderServer } from "./order.server";
-import OrderValidationSchema from "./order.validation";
+import { OrderServices } from "./order.service";
+import catchAsync from "../../utils/catchAsync";
+import sendResponse from "../../utils/sendResponse";
+import status from "http-status";
 
+const createOrder = catchAsync(async (req, res) => {
+  const result = await OrderServices.createtOrderinDB(req.body);
 
-const createOrder = async (req: Request, res: Response) =>{
-    try {
-        const {order: orderData} = req.body;
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Order created successfully",
+    data: result,
+  });
+});
 
-        const validetData = OrderValidationSchema.parse(orderData)
+const getAllOrder = catchAsync(async (req, res) => {
+  const result = await OrderServices.getAllOrderFromDB();
 
-        const result = await OrderServer.createtOrderinDB(validetData)
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Order retrieved successfully",
+    data: result,
+  });
+});
 
-        res.status(200).json({
-            success: true,
-            message: 'Order created successfully',
-            data: result
-        })
-    } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: error.message || 'Something went wrong',
-            data: error
-        })
-    }
-}
+const getTotalRevenue = catchAsync(async (req, res) => {
+  const result = await OrderServices.getTotalRevenueFromDB();
 
-const getAllOrder = async (req: Request, res: Response) =>{
-    try {
-
-        const result = await OrderServer.getAllOrderFromDB()
-
-        res.status(200).json({
-            success: true,
-            message: 'Order created successfully',
-            data: result
-        })
-    } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: error.message || 'Something went wrong',
-            data: error
-        })
-    }
-}
-
-const getTotalRevenue = async (req: Request, res: Response) =>{
-    try {
-        // const {order: orderData} = req.body;
-        const result = await OrderServer.getTotalRevenueFromDB()
-
-        res.status(200).json({
-            success: true,
-            message: 'Total Revenue get successfully',
-            data: result
-        })
-    } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: error.message || 'Something went wrong',
-            data: error
-        })
-    }
-}
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Total Revenue get successfully",
+    data: result,
+  });
+});
 
 export const OrderController = {
-    createOrder,
-    getTotalRevenue,
-    getAllOrder
-}
+  createOrder,
+  getTotalRevenue,
+  getAllOrder,
+};
