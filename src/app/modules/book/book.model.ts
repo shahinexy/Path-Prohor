@@ -12,7 +12,7 @@ const bookSchema = new Schema<TBook>({
     },
     description: {type: String, required: true},
     quantity: {type: Number, required: true},
-    inStock: Boolean
+    inStock: {type: Boolean}
 }, {
     timestamps: true
 })

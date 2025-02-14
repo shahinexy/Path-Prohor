@@ -1,16 +1,18 @@
+import status from "http-status";
+import AppError from "../../error/AppError";
 import { BookModle } from "../book/book.model";
 import { Order } from "./order.interface";
 import { OrderModule } from "./order.module";
 
 const createtOrderinDB = async (payload: Order) => {
-  const book = await BookModle.findOne({ _id: payload.product });
+  const book = await BookModle.findById(payload.product);
 
   if (!book) {
-    throw new Error("Book not found");
+    throw new AppError(status.NOT_FOUND,"Book not found");
   }
 
   if (book.quantity < payload.quantity) {
-    throw new Error("Not enough stock available");
+    throw new AppError(status.CONFLICT, "Not enough stock available");
   }
 
   book.quantity -= payload.quantity;
@@ -26,7 +28,7 @@ const createtOrderinDB = async (payload: Order) => {
 };
 
 const getAllOrderFromDB = async () => {
-  const result = await OrderModule.find().populate('product');
+  const result = await OrderModule.find().populate("product");
   return result;
 };
 
