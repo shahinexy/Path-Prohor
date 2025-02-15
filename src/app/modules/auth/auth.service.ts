@@ -1,41 +1,23 @@
-
+import status from "http-status";
+import AppError from "../../error/AppError";
 import { TRegistration } from "./auth.interface";
+import { UserRegisterModel } from "./auth.model";
 
 const registerIntoDB = async (payload: TRegistration) => {
-  const result = await UserModel.create(payload)
+  const isUserExists = await UserRegisterModel.findOne({
+    email: payload.email,
+  });
+
+  if (isUserExists) {
+    throw new AppError(status.BAD_REQUEST, "User already exists");
+  }
+
+  const result = await UserRegisterModel.create(payload);
   return result;
 };
 
-// const getAllBooksFromDB = async (query: Record<string, unknown>) => {
-//   const bookSearchbleField = ["title", "author", "category", "description"];
-
-//   const bookQuery = new QueryBuilder(BookModle.find(), query)
-//     .search(bookSearchbleField)
-//     .paginate();
-
-//   const result = await bookQuery.modelQuery;
-
-//   return result;
-// };
-
-// const getSingleBookFromDB = async (id: string) => {
-//   const result = await BookModle.findById(id);
-//   return result;
-// };
-
-// const updateSingleBookFromDB = async (id: string, payload: Partial<TBook>) => {
-//   const result = await BookModle.findByIdAndUpdate(id, payload, {
-//     runValidators: true,
-//     new: true,
-//   });
-  
-//   return result;
-// };
 
 
-export const BookServices = {
+export const AuthServices = {
   registerIntoDB,
-  // getAllBooksFromDB,
-  // getSingleBookFromDB,
-  // updateSingleBookFromDB,
 };
